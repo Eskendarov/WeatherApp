@@ -1,3 +1,42 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_subtitle">enver@eskendarov.ru</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="set_location">Set location</string>
+    <string name="cities">Cities</string>
+    <string name="settings">Settings</string>
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string-array name="cities">
+        <item>Saint-Petersburg</item>
+        <item>New-York</item>
+        <item>Paris</item>
+        <item>Beijing</item>
+        <item>Abu Dhabi</item>
+    </string-array>
+    <string-array name="countries">
+        <item>Russia</item>
+        <item>USA</item>
+        <item>France</item>
+        <item>China</item>
+        <item>UAE</item>
+    </string-array>
+    <integer-array name="cities_imgs">
+        <item>@drawable/spb</item>
+        <item>@drawable/nrk</item>
+        <item>@drawable/prs</item>
+        <item>@drawable/bjng</item>
+        <item>@drawable/abu</item>
+    </integer-array>
+    <string-array name="cities_info">
+        <item>Санкт-Петербу́рг — второй по численности населения город России. Город федерального значения. Основан 16 (27) мая 1703 года Петром I. В 1712—1918 годах являлся столицей Российского государства.</item>
+        <item>Нью-Йо́рк — крупнейший город США, входящий в одну из крупнейших агломераций мира. Город был основан в начале XVII века голландскими колонистами и до 1664 года назывался Новый Амстердам.</item>
+        <item>Пари́ж — город, столица Франции, административный центр региона Иль-де-Франс. Образует коммуну и департамент, разделённый на 20 округов.</item>
+        <item>Пеки́н — столица и один из городов центрального подчинения Китайской Народной Республики. Пекин с трёх сторон окружён провинцией Хэбэй и граничит с Тяньцзинем на юго-востоке.</item>
+        <item>А́бу́-Да́би — столица Объединённых Арабских Эмиратов и эмирата Абу-Даби. Политический, промышленный, торговый и культурный центр страны. Абу-Даби основан около 1760 года. Имеются археологические подтверждения существования поселения на этом месте с 3 тысячелетия до н. э.</item>
+    </string-array>
 </resources>
