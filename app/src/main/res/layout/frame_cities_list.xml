@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,13 +15,13 @@
     android:focusable="true"
     >
   
-  <LinearLayout
+  <androidx.appcompat.widget.LinearLayoutCompat
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
       >
     
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_margin="5dp"
@@ -30,7 +30,7 @@
         tools:ignore="ContentDescription"
         />
     
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="@dimen/cardview_default_elevation"
@@ -40,18 +40,18 @@
         tools:ignore="PrivateResource"
         >
       
-      <TextView
+      <androidx.appcompat.widget.AppCompatTextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/city_name"
           android:textSize="25sp"
           />
       
-      <TextView
+      <androidx.appcompat.widget.AppCompatTextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/country"
           />
-    </LinearLayout>
-  </LinearLayout>
-</android.support.v7.widget.CardView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+  </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>

@@ -5,7 +5,6 @@ import android.util.Log;
 /**
  * @author Enver Eskendarov
  */
-
 final class Cities {
 
   private final String name;
