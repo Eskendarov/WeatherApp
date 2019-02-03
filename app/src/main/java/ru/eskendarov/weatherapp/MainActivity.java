@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -34,14 +33,9 @@ public class MainActivity extends AppCompatActivity implements
     final Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     final FloatingActionButton fab = findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(final View view) {
-        Snackbar.make(view,
-            "Send message to developer", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
-      }
-    });
+    fab.setOnClickListener(view -> Snackbar.make(view,
+        "Send message to developer", Snackbar.LENGTH_LONG)
+        .setAction("Action", null).show());
     final DrawerLayout drawer = findViewById(R.id.drawer_layout);
     final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, toolbar,

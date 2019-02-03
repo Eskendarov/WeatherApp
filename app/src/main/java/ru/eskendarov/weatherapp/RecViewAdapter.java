@@ -68,14 +68,11 @@ final class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.CityViewH
       cityName = itemView.findViewById(R.id.city_name);
       country = itemView.findViewById(R.id.country);
       cityPhoto = itemView.findViewById(R.id.city_photo);
-      itemView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(final View v) {
-          Toast.makeText(itemView.getContext(),
-              "CardView #" + (getLayoutPosition() + 1),
-              Toast.LENGTH_SHORT).show();
-          Log.d("click", String.format("onClick: %s", ""));
-        }
+      itemView.setOnClickListener(v -> {
+        Toast.makeText(itemView.getContext(),
+            "CardView #" + (getLayoutPosition() + 1),
+            Toast.LENGTH_SHORT).show();
+        Log.d(getClass().getSimpleName(), String.format("onClick: %s", ""));
       });
       Log.d(getClass().getSimpleName(), String.format("CityViewHolder: %s", ""));
     }

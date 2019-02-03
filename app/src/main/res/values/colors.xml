@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorActionBarTitle">#cfd8dc</color>
-    <color name="colorBackgroundFloating">#80abc1</color>
-    <color name="colorStatusBar">#29434e</color>
-    <color name="colorActionBar">#34515e</color>
-    <color name="colorBackground">#607d8b</color>
-    <color name="colorAccentDark">#34515e</color>
-    <color name="primaryTextColor">#212121</color>
-    <color name="secondaryTextColor">#fafafa</color>
+  <color name="colorActionBarTitle">#cfd8dc</color>
+  <color name="colorBackgroundFloating">#80abc1</color>
+  <color name="colorStatusBar">#29434e</color>
+  <color name="colorActionBar">#34515e</color>
+  <color name="colorBackground">#607d8b</color>
+  <color name="colorAccentDark">#34515e</color>
+  <color name="primaryTextColor">#212121</color>
+  <color name="secondaryTextColor">#fafafa</color>
 </resources>

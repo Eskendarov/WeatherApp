@@ -1,25 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
-        <item name="android:statusBarColor">@color/colorStatusBar</item>
-        <item name="android:navigationBarColor">@color/colorStatusBar</item>
-        <item name="colorPrimary">@color/colorActionBar</item>
-        <item name="colorAccent">@color/colorAccentDark</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
-        <item name="colorBackgroundFloating">@color/colorBackgroundFloating</item>
-        <item name="android:textColorPrimary">@color/primaryTextColor</item>
-        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
-        <item name="android:buttonCornerRadius" tools:ignore="NewApi">16dp</item>
-        <item name="android:dialogCornerRadius" tools:ignore="NewApi">16dp</item>
-    </style>
-    
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-    
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+  
+  <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+    <item name="android:statusBarColor">@color/colorStatusBar</item>
+    <item name="android:navigationBarColor">@color/colorStatusBar</item>
+    <item name="colorPrimary">@color/colorActionBar</item>
+    <item name="colorAccent">@color/colorAccentDark</item>
+    <item name="android:colorBackground">@color/colorBackground</item>
+    <item name="colorBackgroundFloating">@color/colorBackgroundFloating</item>
+    <item name="android:textColorPrimary">@color/primaryTextColor</item>
+    <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+    <item name="android:buttonCornerRadius" tools:ignore="NewApi">16dp</item>
+    <item name="android:dialogCornerRadius" tools:ignore="NewApi">16dp</item>
+  </style>
+  
+  <style name="AppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
+  
+  <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+  
+  <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>
