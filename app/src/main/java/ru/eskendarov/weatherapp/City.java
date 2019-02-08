@@ -5,31 +5,35 @@ import android.util.Log;
 /**
  * @author Enver Eskendarov
  */
-final class Cities {
+final class City {
 
   private final String name;
   private final String country;
   private final int photoId;
 
-  Cities(final String name, final String country, final int photoId) {
+  City(final String name, final String country, final int photoId) {
     this.name = name;
     this.country = country;
     this.photoId = photoId;
-    Log.d(getClass().getSimpleName(), String.format("Cities: %s", ""));
+    logging("City");
+  }
+
+  private void logging(final String message) {
+    Log.d(getClass().getSimpleName(), String.format("%s", message));
   }
 
   String getName() {
-    Log.d(getClass().getSimpleName(), String.format("getName: %s", ""));
+    logging("getName");
     return name;
   }
 
   String getCountry() {
-    Log.d(getClass().getSimpleName(), String.format("getCountry: %s", ""));
+    logging("getCountry");
     return country;
   }
 
   int getPhotoId() {
-    Log.d(getClass().getSimpleName(), String.format("getPhotoId: %s", ""));
+    logging("getPhotoId");
     return photoId;
   }
 }

@@ -1,5 +1,6 @@
 package ru.eskendarov.weatherapp;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -8,130 +9,143 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import butterknife.BindArray;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * @author Enver Eskendarov
  */
-public class MainActivity extends AppCompatActivity implements
-    NavigationView.OnNavigationItemSelectedListener {
+public final class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener {
+
+  @BindView(R.id.toolbar)
+  Toolbar toolbar;
+  @BindView(R.id.drawer_layout)
+  DrawerLayout drawer;
+  @BindView(R.id.nav_view)
+  NavigationView navigationView;
+  @BindView(R.id.recycler_view)
+  RecyclerView recyclerView;
+  @BindArray(R.array.cities)
+  String[] cities;
+  @BindArray(R.array.countries)
+  String[] countries;
+  @BindArray(R.array.cities_imgs)
+  TypedArray imageIndex;
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    final Toolbar toolbar = findViewById(R.id.toolbar);
+    ButterKnife.bind(this);
     setSupportActionBar(toolbar);
-    final FloatingActionButton fab = findViewById(R.id.fab);
-    fab.setOnClickListener(view -> Snackbar.make(view,
-        "Send message to developer", Snackbar.LENGTH_LONG)
-        .setAction("Action", null).show());
-    final DrawerLayout drawer = findViewById(R.id.drawer_layout);
     final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-        this, drawer, toolbar,
-        R.string.navigation_drawer_open,
-        R.string.navigation_drawer_close);
+            this, drawer, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
-    final NavigationView navigationView = findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
-    final RecyclerView recyclerView = findViewById(R.id.recycler_view);
     recyclerView.setHasFixedSize(true);
-    final LinearLayoutManager llm = new LinearLayoutManager(this);
-    recyclerView.setLayoutManager(llm);
-    recyclerView.setAdapter(new RecViewAdapter(getCitiesList()));
-    Log.d(getClass().getSimpleName(), String.format("onCreate: %s", ""));
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    recyclerView.setAdapter(new RecycleViewAdapter(getCitiesList()));
+    logging("onCreate");
   }
 
-  private List<Cities> getCitiesList() {
-    final List<Cities> citiesList = new ArrayList<>();
-    for (int i = 0; i < getResources().getStringArray(R.array.cities).length; i++) {
-      citiesList.add(new Cities(
-          getResources().getStringArray(R.array.cities)[i],
-          getResources().getStringArray(R.array.countries)[i],
-          getResources().obtainTypedArray(R.array.cities_imgs)
-              .getResourceId(i, -1)));
+  private List<City> getCitiesList() {
+    final List<City> cityList = new ArrayList<>();
+    for (int i = 0; i < cities.length; i++) {
+      cityList.add(new City(cities[i], countries[i],
+              imageIndex.getResourceId(i, -1)));
     }
-    Log.d(getClass().getSimpleName(), String.format("getCitiesList: %s", ""));
-    return citiesList;
+    cityList.sort(Comparator.comparing(City::getName));
+    logging("getCitiesList");
+    return cityList;
+  }
+
+  private void logging(final String message) {
+    Log.d(getClass().getSimpleName(), String.format("%s", message));
   }
 
   @Override
   public void onBackPressed() {
-    final DrawerLayout drawer = findViewById(R.id.drawer_layout);
     if (drawer.isDrawerOpen(GravityCompat.START)) {
       drawer.closeDrawer(GravityCompat.START);
     } else {
       super.onBackPressed();
     }
-    Log.d(getClass().getSimpleName(), String.format("onBackPressed: %s", ""));
+    logging("onBackPressed");
   }
 
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
     getMenuInflater().inflate(R.menu.main, menu);
-    Log.d(getClass().getSimpleName(), String.format("onCreateOptionsMenu: %s", ""));
-    return true;
+    final MenuItem searchItem = menu.findItem(R.id.search);
+    final SearchView searchView = (SearchView) searchItem.getActionView();
+    logging(searchView.getQuery().toString());
+    // Не могу получить текст из поиска ¯\_(ツ)_/¯
+    logging("onCreateOptionsMenu");
+    return super.onCreateOptionsMenu(menu);
   }
 
   @Override
   public boolean onOptionsItemSelected(final MenuItem item) {
     switch (item.getItemId()) {
       case R.id.search: {
-        Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+        toaster("search");
         break;
       }
       default: {
       }
     }
-    Log.d(getClass().getSimpleName(), String.format("onOptionsItemSelected: %s", ""));
+    logging("onOptionsItemSelected");
     return super.onOptionsItemSelected(item);
+  }
+
+  private void toaster(final String message) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
   }
 
   @Override
   public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
     switch (item.getItemId()) {
       case R.id.nav_set_loc: {
-        Toast.makeText(this,
-            "nav set loc", Toast.LENGTH_SHORT).show();
+        toaster("nav set loc");
         break;
       }
       case R.id.nav_cities_list: {
-        Toast.makeText(this,
-            "nav cities list", Toast.LENGTH_SHORT).show();
+        toaster("nav cities list");
         break;
       }
       case R.id.nav_setting: {
-        Toast.makeText(this,
-            "nav setting", Toast.LENGTH_SHORT).show();
+        toaster("nav setting");
         break;
       }
       case R.id.nav_share: {
-        Toast.makeText(this,
-            "nav share", Toast.LENGTH_SHORT).show();
+        toaster("nav share");
         break;
       }
       case R.id.nav_send: {
-        Toast.makeText(this,
-            "nav send", Toast.LENGTH_SHORT).show();
+        toaster("nav send");
         break;
       }
       default: {
       }
     }
-    final DrawerLayout drawer = findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
-    Log.d(getClass().getSimpleName(), String.format("onNavigationItemSelected: %s", ""));
+    logging("onNavigationItemSelected");
     return true;
   }
 }

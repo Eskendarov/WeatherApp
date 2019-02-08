@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -16,22 +15,26 @@ import java.util.List;
 /**
  * @author Enver Eskendarov
  */
-final class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.CityViewHolder> {
+final class RecycleViewAdapter extends
+        RecyclerView.Adapter<RecycleViewAdapter.CityViewHolder> {
 
-  private final List<Cities> cities;
+  private final List<City> cities;
 
-  RecViewAdapter(final List<Cities> cities) {
+  RecycleViewAdapter(final List<City> cities) {
     this.cities = cities;
-    Log.d(getClass().getSimpleName(), String.format("RecViewAdapter: %s", ""));
+    logging("RecycleViewAdapter");
+  }
+
+  private void logging(final String message) {
+    Log.d(getClass().getSimpleName(), String.format("%s", message));
   }
 
   @Override
-  public CityViewHolder onCreateViewHolder(
-      final ViewGroup viewGroup,
-      final int i) {
+  public CityViewHolder onCreateViewHolder(final ViewGroup viewGroup,
+                                           final int i) {
     final View v = LayoutInflater.from(viewGroup.getContext())
-        .inflate(R.layout.frame_cities_list, viewGroup, false);
-    Log.d(getClass().getSimpleName(), String.format("onCreateViewHolder: %s", ""));
+            .inflate(R.layout.frame_cities_list, viewGroup, false);
+    logging("onCreateViewHolder");
     return new CityViewHolder(v);
   }
 
@@ -40,41 +43,38 @@ final class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.CityViewH
     cityViewHolder.cityName.setText(cities.get(i).getName());
     cityViewHolder.country.setText(cities.get(i).getCountry());
     cityViewHolder.cityPhoto.setImageResource(cities.get(i).getPhotoId());
-    Log.d(getClass().getSimpleName(), String.format("onBindViewHolder: %s", ""));
+    logging("onBindViewHolder");
   }
 
   @Override
   public int getItemCount() {
-    Log.d(getClass().getSimpleName(), String.format("getItemCount: %s", ""));
+    logging("getItemCount");
     return cities.size();
   }
 
   @Override
   public void onAttachedToRecyclerView(@NonNull final RecyclerView recyclerView) {
     super.onAttachedToRecyclerView(recyclerView);
-    Log.d(getClass().getSimpleName(), String.format("onAttachedToRecyclerView: %s", ""));
+    logging("onAttachedToRecyclerView");
   }
 
   static class CityViewHolder extends RecyclerView.ViewHolder {
 
-    private final CardView cv;
     private final TextView cityName;
     private final TextView country;
     private final ImageView cityPhoto;
 
     CityViewHolder(final View itemView) {
       super(itemView);
-      cv = itemView.findViewById(R.id.card_view);
       cityName = itemView.findViewById(R.id.city_name);
       country = itemView.findViewById(R.id.country);
       cityPhoto = itemView.findViewById(R.id.city_photo);
       itemView.setOnClickListener(v -> {
         Toast.makeText(itemView.getContext(),
-            "CardView #" + (getLayoutPosition() + 1),
-            Toast.LENGTH_SHORT).show();
-        Log.d(getClass().getSimpleName(), String.format("onClick: %s", ""));
+                "CardView #" + (getLayoutPosition() + 1),
+                Toast.LENGTH_SHORT).show();
+        Log.d("click", "onClick: %s");
       });
-      Log.d(getClass().getSimpleName(), String.format("CityViewHolder: %s", ""));
     }
   }
 }
