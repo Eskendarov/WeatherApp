@@ -5,7 +5,7 @@
     tools:showIn="navigation_view"
     >
   
-  <group android:checkableBehavior="single">
+  <group android:checkableBehavior="all">
     <item
         android:id="@+id/nav_set_loc"
         android:icon="@drawable/placeholder"
@@ -22,18 +22,21 @@
         android:title="@string/settings"
         />
   </group>
+  
   <item android:title="@string/communicate">
     <menu>
-      <item
-          android:id="@+id/nav_share"
-          android:icon="@drawable/ic_menu_share"
-          android:title="@string/share"
-          />
-      <item
-          android:id="@+id/nav_send"
-          android:icon="@drawable/ic_menu_send"
-          android:title="@string/send"
-          />
+      <group android:checkableBehavior="all">
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/share"
+            />
+        <item
+            android:id="@+id/nav_send"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/send"
+            />
+      </group>
     </menu>
   </item>
 
