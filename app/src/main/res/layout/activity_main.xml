@@ -30,7 +30,7 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer"
-        app:itemTextAppearance="@style/TextAppearance.AppCompat"
+        app:itemTextAppearance="@style/TextAppearance.AppCompat.Medium"
         />
   </androidx.drawerlayout.widget.DrawerLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

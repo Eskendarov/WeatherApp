@@ -6,10 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 /**
@@ -18,24 +16,26 @@ import java.util.List;
 final class RecycleViewAdapter extends
         RecyclerView.Adapter<RecycleViewAdapter.CityViewHolder> {
 
+  private static final String TAG = "qwerty";
   private final List<City> cities;
+  private OnItemClickListener itemClickListener;
 
   RecycleViewAdapter(final List<City> cities) {
     this.cities = cities;
     logging("RecycleViewAdapter");
   }
 
-  private void logging(final String message) {
-    Log.d(getClass().getSimpleName(), String.format("%s", message));
-  }
-
   @Override
   public CityViewHolder onCreateViewHolder(final ViewGroup viewGroup,
                                            final int i) {
     final View v = LayoutInflater.from(viewGroup.getContext())
-            .inflate(R.layout.frame_cities_list, viewGroup, false);
+            .inflate(R.layout.card_view_city, viewGroup, false);
     logging("onCreateViewHolder");
     return new CityViewHolder(v);
+  }
+
+  private void logging(final String message) {
+    Log.d(TAG, String.format("%s", message));
   }
 
   @Override
@@ -58,7 +58,16 @@ final class RecycleViewAdapter extends
     logging("onAttachedToRecyclerView");
   }
 
-  static class CityViewHolder extends RecyclerView.ViewHolder {
+  void SetOnItemClickListener(OnItemClickListener itemClickListener) {
+    this.itemClickListener = itemClickListener;
+  }
+
+  public interface OnItemClickListener {
+
+    void onItemClick(final View view, final String cityName);
+  }
+
+  class CityViewHolder extends RecyclerView.ViewHolder {
 
     private final TextView cityName;
     private final TextView country;
@@ -69,12 +78,8 @@ final class RecycleViewAdapter extends
       cityName = itemView.findViewById(R.id.city_name);
       country = itemView.findViewById(R.id.country);
       cityPhoto = itemView.findViewById(R.id.city_photo);
-      itemView.setOnClickListener(v -> {
-        Toast.makeText(itemView.getContext(),
-                "CardView #" + (getLayoutPosition() + 1),
-                Toast.LENGTH_SHORT).show();
-        Log.d("click", "onClick: %s");
-      });
+      itemView.setOnClickListener(v ->
+              itemClickListener.onItemClick(v, cityName.getText().toString()));
     }
   }
 }

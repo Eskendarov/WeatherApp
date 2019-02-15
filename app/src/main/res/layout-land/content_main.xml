@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+  <!-- Фрагмент с выбором городов -->
+  <fragment
+      android:name="ru.eskendarov.weatherapp.CitiesListFragment"
+      android:id="@+id/cities_list_fragment"
+      android:layout_weight="5"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+  <!-- Здесь будет инфо выбранного города -->
+  <FrameLayout
+      android:id="@+id/weather_info_fragment"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="4"
+      android:background="?android:attr/detailsElementBackground"
+      >
+  </FrameLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,6 +1,5 @@
 package ru.eskendarov.weatherapp;
 
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,36 +11,22 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * @author Enver Eskendarov
  */
 public final class MainActivity extends AppCompatActivity {
 
+  private static final String TAG = "qwerty";
   @BindView(R.id.toolbar)
   Toolbar toolbar;
   @BindView(R.id.drawer_layout)
   DrawerLayout drawer;
   @BindView(R.id.nav_view)
   NavigationView navigationView;
-  @BindView(R.id.recycler_view)
-  RecyclerView recyclerView;
-  @BindArray(R.array.cities)
-  String[] cities;
-  @BindArray(R.array.countries)
-  String[] countries;
-  @BindArray(R.array.cities_imgs)
-  TypedArray imageIndex;
 
   @Override
   public void onBackPressed() {
@@ -54,7 +39,7 @@ public final class MainActivity extends AppCompatActivity {
   }
 
   private void logging(final String message) {
-    Log.d(getClass().getSimpleName(), String.format("%s", message));
+    Log.d(TAG, String.format("%s", message));
   }
 
   @Override
@@ -82,16 +67,20 @@ public final class MainActivity extends AppCompatActivity {
     return super.onOptionsItemSelected(item);
   }
 
+  private void toaster(final String message) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+  }
+
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    ButterKnife.bind(this);
     initialize();
     logging("onCreate");
   }
 
   private void initialize() {
+    ButterKnife.bind(this);
     setNavigationListener();
     setSupportActionBar(toolbar);
     final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -100,9 +89,6 @@ public final class MainActivity extends AppCompatActivity {
             R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
-    recyclerView.setHasFixedSize(true);
-    recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    recyclerView.setAdapter(new RecycleViewAdapter(getCitiesList()));
   }
 
   private void setNavigationListener() {
@@ -135,20 +121,5 @@ public final class MainActivity extends AppCompatActivity {
       logging("onNavigationItemSelected");
       return true;
     });
-  }
-
-  private List<City> getCitiesList() {
-    final List<City> cityList = new ArrayList<>();
-    for (int i = 0; i < cities.length; i++) {
-      cityList.add(new City(cities[i], countries[i],
-              imageIndex.getResourceId(i, -1)));
-    }
-    cityList.sort(Comparator.comparing(City::getName));
-    logging("getCitiesList");
-    return cityList;
-  }
-
-  private void toaster(final String message) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
   }
 }
