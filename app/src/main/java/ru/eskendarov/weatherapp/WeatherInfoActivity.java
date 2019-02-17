@@ -6,14 +6,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import java.util.Objects;
 
-public class WeatherInfoActivity extends AppCompatActivity {
+/**
+ * @author Enver Eskendarov
+ */
+public final class WeatherInfoActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(@Nullable final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-    setContentView(R.layout.fragment_weather_info);
     initialize();
+    WeatherInfoFragment fragment = new WeatherInfoFragment();
+    Bundle bundle = new Bundle();
+    bundle.putString("city", getIntent().getStringExtra("city"));
+    fragment.setArguments(bundle);
+    getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.container, new WeatherInfoFragment(), "fragment")
+            .commit();
   }
 
   private void initialize() {

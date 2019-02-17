@@ -12,17 +12,9 @@
     >
   
   <FrameLayout
-      xmlns:android="http://schemas.android.com/apk/res/android"
       android:id="@+id/container"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       >
-    
-    <fragment
-        android:name="ru.eskendarov.weatherapp.CitiesListFragment"
-        android:id="@+id/cities"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
   </FrameLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
