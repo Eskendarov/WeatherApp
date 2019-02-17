@@ -1,9 +1,11 @@
 package ru.eskendarov.weatherapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.google.android.material.navigation.NavigationView;
+import ru.eskendarov.weatherapp.audioplayer.App;
+import ru.eskendarov.weatherapp.audioplayer.AudioService;
+import ru.eskendarov.weatherapp.audioplayer.Player;
 
 /**
  * @author Enver Eskendarov
@@ -27,6 +32,10 @@ public final class MainActivity extends AppCompatActivity {
   DrawerLayout drawer;
   @BindView(R.id.nav_view)
   NavigationView navigationView;
+  @BindView(R.id.player)
+  Button button;
+  @BindView(R.id.stop_service)
+  Button stopService;
 
   @Override
   public void onBackPressed() {
@@ -76,7 +85,27 @@ public final class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     initialize();
+    player();
     logging("onCreate");
+  }
+
+  private void player() {
+    stopService.setOnClickListener(v -> {
+      stopService(new Intent(this, AudioService.class));
+    });
+    button.setOnClickListener(v -> {
+      final Player player = ((App) getApplication()).getPlayer();
+      if (player == null) {
+        toaster("Player isn't running");
+        return;
+      }
+      button.setText(player.isPlaying() ? "Play" : "Pause");
+      if (player.isPlaying()) {
+        player.pause();
+      } else {
+        player.start();
+      }
+    });
   }
 
   private void initialize() {
@@ -106,14 +135,6 @@ public final class MainActivity extends AppCompatActivity {
           toaster("nav setting");
           break;
         }
-        case R.id.nav_share: {
-          toaster("nav share");
-          break;
-        }
-        case R.id.nav_send: {
-          toaster("nav send");
-          break;
-        }
         default: {
         }
       }
@@ -121,5 +142,10 @@ public final class MainActivity extends AppCompatActivity {
       logging("onNavigationItemSelected");
       return true;
     });
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
   }
 }

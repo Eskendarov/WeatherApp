@@ -25,6 +25,10 @@ final class RecycleViewAdapter extends
     logging("RecycleViewAdapter");
   }
 
+  private void logging(final String message) {
+    Log.d(TAG, String.format("%s", message));
+  }
+
   @Override
   public CityViewHolder onCreateViewHolder(final ViewGroup viewGroup,
                                            final int i) {
@@ -32,10 +36,6 @@ final class RecycleViewAdapter extends
             .inflate(R.layout.card_view_city, viewGroup, false);
     logging("onCreateViewHolder");
     return new CityViewHolder(v);
-  }
-
-  private void logging(final String message) {
-    Log.d(TAG, String.format("%s", message));
   }
 
   @Override

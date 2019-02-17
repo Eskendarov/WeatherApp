@@ -12,9 +12,8 @@ public class WeatherInfoActivity extends AppCompatActivity {
   protected void onCreate(@Nullable final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-//    setContentView(R.layout.fragment_weather_info);
-    setContentView(new CView(this));
-//    initialize();
+    setContentView(R.layout.fragment_weather_info);
+    initialize();
   }
 
   private void initialize() {

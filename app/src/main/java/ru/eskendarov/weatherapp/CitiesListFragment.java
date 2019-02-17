@@ -3,7 +3,6 @@ package ru.eskendarov.weatherapp;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import java.util.List;
 
 public class CitiesListFragment extends Fragment {
 
-  private final static String TAG = "qwerty";
   @BindView(R.id.recycler_view)
   RecyclerView recyclerView;
   @BindArray(R.array.cities)
@@ -49,15 +47,19 @@ public class CitiesListFragment extends Fragment {
     recyclerView.setHasFixedSize(true);
     final RecycleViewAdapter adapter = new RecycleViewAdapter(getCitiesList());
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    recyclerView.setAdapter(adapter);
     adapter.SetOnItemClickListener((view, cityName) -> {
       final Intent intent =
               new Intent(getActivity(), WeatherInfoActivity.class);
       intent.putExtra("city", cityName);
       startActivity(intent);
-      Log.d(TAG, cityName);
+//      getActivity()
+//              .getSupportFragmentManager()
+//              .beginTransaction()
+//              .replace(R.id.cities,new WeatherInfoFragment())
+//              .commit();
       Toast.makeText(getActivity(), cityName, Toast.LENGTH_SHORT).show();
     });
+    recyclerView.setAdapter(adapter);
   }
 
   private List<City> getCitiesList() {
