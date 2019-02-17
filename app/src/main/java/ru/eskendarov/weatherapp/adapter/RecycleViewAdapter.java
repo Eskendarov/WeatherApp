@@ -1,4 +1,4 @@
-package ru.eskendarov.weatherapp;
+package ru.eskendarov.weatherapp.adapter;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,18 +9,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+import ru.eskendarov.weatherapp.R;
 
 /**
  * @author Enver Eskendarov
  */
-final class RecycleViewAdapter extends
+public final class RecycleViewAdapter extends
         RecyclerView.Adapter<RecycleViewAdapter.CityViewHolder> {
 
   private static final String TAG = "qwerty";
   private final List<City> cities;
   private OnItemClickListener itemClickListener;
 
-  RecycleViewAdapter(final List<City> cities) {
+  public RecycleViewAdapter(final List<City> cities) {
     this.cities = cities;
     logging("RecycleViewAdapter");
   }
@@ -58,7 +59,7 @@ final class RecycleViewAdapter extends
     logging("onAttachedToRecyclerView");
   }
 
-  void SetOnItemClickListener(OnItemClickListener itemClickListener) {
+  public void SetOnItemClickListener(OnItemClickListener itemClickListener) {
     this.itemClickListener = itemClickListener;
   }
 

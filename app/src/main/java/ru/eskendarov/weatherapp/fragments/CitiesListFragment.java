@@ -1,4 +1,4 @@
-package ru.eskendarov.weatherapp;
+package ru.eskendarov.weatherapp.fragments;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindArray;
@@ -16,6 +17,9 @@ import butterknife.ButterKnife;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import ru.eskendarov.weatherapp.R;
+import ru.eskendarov.weatherapp.adapter.City;
+import ru.eskendarov.weatherapp.adapter.RecycleViewAdapter;
 
 /**
  * @author Enver Eskendarov
@@ -32,10 +36,9 @@ public final class CitiesListFragment extends Fragment {
   TypedArray imageIndex;
 
   @Override
-  public View onCreateView(
-          @NonNull final LayoutInflater inflater,
-          @Nullable final ViewGroup container,
-          final Bundle savedInstanceState) {
+  public View onCreateView(@NonNull final LayoutInflater inflater,
+                           @Nullable final ViewGroup container,
+                           final Bundle savedInstanceState) {
     final View view =
             inflater.inflate(R.layout.fragment_list_cities, container, false);
     ButterKnife.bind(this, view);
@@ -54,19 +57,6 @@ public final class CitiesListFragment extends Fragment {
     recyclerView.setAdapter(adapter);
   }
 
-  private void recycleViewClick(final String cityName) {
-    final Bundle args = new Bundle();
-    args.putString("city", cityName);
-    final WeatherInfoFragment infoFragment = new WeatherInfoFragment();
-    infoFragment.setArguments(args);
-    getActivity()
-            .getSupportFragmentManager()
-            .beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.container, infoFragment)
-            .commit();
-  }
-
   private List<City> getCitiesList() {
     final List<City> cityList = new ArrayList<>();
     for (int i = 0; i < cities.length; i++) {
@@ -75,5 +65,18 @@ public final class CitiesListFragment extends Fragment {
     }
     cityList.sort(Comparator.comparing(City::getName));
     return cityList;
+  }
+
+  private void recycleViewClick(final String cityName) {
+    final Bundle args = new Bundle();
+    args.putString("city", cityName);
+    final WeatherInfoFragment infoFragment = new WeatherInfoFragment();
+    infoFragment.setArguments(args);
+    final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+    fragmentManager.popBackStack();
+    fragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.container, infoFragment)
+            .commit();
   }
 }

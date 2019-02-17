@@ -6,8 +6,8 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp"
     android:layout_margin="5dp"
+    app:cardCornerRadius="10dp"
     android:id="@+id/card_view"
     android:focusable="true"
     >
@@ -41,8 +41,8 @@
         android:layout_margin="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="PrivateResource"
         android:padding="10dp"
+        tools:ignore="PrivateResource"
         >
       
       <androidx.appcompat.widget.AppCompatTextView

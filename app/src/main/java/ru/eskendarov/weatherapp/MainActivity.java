@@ -14,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.google.android.material.navigation.NavigationView;
+import ru.eskendarov.weatherapp.fragments.CitiesListFragment;
 
 /**
  * @author Enver Eskendarov
@@ -75,11 +76,11 @@ public final class MainActivity extends AppCompatActivity {
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    initialize(savedInstanceState);
+    initialize();
     logging("onCreate");
   }
 
-  private void initialize(final Bundle bundle) {
+  private void initialize() {
     ButterKnife.bind(this);
     setNavigationListener();
     setSupportActionBar(toolbar);
@@ -89,12 +90,11 @@ public final class MainActivity extends AppCompatActivity {
             R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
-    if (bundle == null) {
-      getSupportFragmentManager()
-              .beginTransaction()
-              .add(R.id.container, new CitiesListFragment())
-              .commit();
-    }
+
+    getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.container, new CitiesListFragment())
+            .commit();
   }
 
   private void setNavigationListener() {
