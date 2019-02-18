@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.google.android.material.navigation.NavigationView;
 import ru.eskendarov.weatherapp.fragments.CitiesListFragment;
+import ru.eskendarov.weatherapp.fragments.SettingsFragment;
 
 /**
  * @author Enver Eskendarov
@@ -108,6 +109,8 @@ public final class MainActivity extends AppCompatActivity {
             .beginTransaction()
             .replace(R.id.container, new CitiesListFragment())
             .commit();
+    runOnUiThread(() -> {
+    });
   }
 
   private void setNavigationListener() {
@@ -118,11 +121,19 @@ public final class MainActivity extends AppCompatActivity {
           break;
         }
         case R.id.nav_cities_list: {
-          toaster("nav cities list");
+          getSupportFragmentManager()
+                  .beginTransaction()
+                  .replace(R.id.container, new CitiesListFragment())
+                  .commit();
           break;
         }
         case R.id.nav_setting: {
-          toaster("nav setting");
+          getSupportFragmentManager().popBackStack();
+          getSupportFragmentManager()
+                  .beginTransaction()
+                  .addToBackStack(null)
+                  .replace(R.id.container, new SettingsFragment())
+                  .commit();
           break;
         }
         default: {

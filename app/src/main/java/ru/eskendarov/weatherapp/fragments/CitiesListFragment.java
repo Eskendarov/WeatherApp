@@ -38,7 +38,7 @@ public final class CitiesListFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull final LayoutInflater inflater,
                            @Nullable final ViewGroup container,
-                           final Bundle savedInstanceState) {
+                           @Nullable final Bundle savedInstanceState) {
     final View view =
             inflater.inflate(R.layout.fragment_list_cities, container, false);
     ButterKnife.bind(this, view);
