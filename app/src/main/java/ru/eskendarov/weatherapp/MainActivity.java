@@ -1,5 +1,7 @@
 package ru.eskendarov.weatherapp;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -46,12 +48,24 @@ public final class MainActivity extends AppCompatActivity {
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
     getMenuInflater().inflate(R.menu.main, menu);
-    final MenuItem searchItem = menu.findItem(R.id.search);
-    final SearchView searchView = (SearchView) searchItem.getActionView();
-    logging(searchView.getQuery().toString());
-    // Не могу получить текст из поиска ¯\_(ツ)_/¯
+    final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+    final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+    searchView.setIconifiedByDefault(false);
+    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override
+      public boolean onQueryTextSubmit(final String query) {
+        return true;
+      }
+
+      @Override
+      public boolean onQueryTextChange(final String newText) {
+        logging(newText);
+        return true;
+      }
+    });
     logging("onCreateOptionsMenu");
-    return super.onCreateOptionsMenu(menu);
+    return true;
   }
 
   @Override
@@ -90,7 +104,6 @@ public final class MainActivity extends AppCompatActivity {
             R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
-
     getSupportFragmentManager()
             .beginTransaction()
             .replace(R.id.container, new CitiesListFragment())
