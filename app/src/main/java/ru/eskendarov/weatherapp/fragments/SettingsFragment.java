@@ -50,11 +50,11 @@ public final class SettingsFragment extends Fragment {
         cityPreference.setCity(cityName);
         Toast.makeText(getActivity(),
                 String.format("saved: %s", cityName), Toast.LENGTH_SHORT).show();
+        textView.setText(String.format("Current Default City: %s", cityPreference.getCity()));
       } else {
         Toast.makeText(getActivity(),
                 "input city name", Toast.LENGTH_SHORT).show();
       }
-      textView.setText(String.format("Current Default City: %s", cityPreference.getCity()));
     });
   }
 }

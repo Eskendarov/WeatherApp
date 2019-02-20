@@ -16,7 +16,6 @@ public final class CityPreference {
     prefs = activity.getPreferences(Activity.MODE_PRIVATE);
   }
 
-  // Saint-Petersburg as the default city
   public String getCity() {
     return prefs.getString(KEY, "Saint-Petersburg");
   }

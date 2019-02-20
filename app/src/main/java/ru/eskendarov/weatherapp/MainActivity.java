@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -24,7 +25,7 @@ import ru.eskendarov.weatherapp.fragments.SettingsFragment;
  */
 public final class MainActivity extends AppCompatActivity {
 
-  private static final String TAG = "qwerty";
+  private static final String TAG = "qqqq";
   @BindView(R.id.toolbar)
   Toolbar toolbar;
   @BindView(R.id.drawer_layout)
@@ -70,7 +71,7 @@ public final class MainActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean onOptionsItemSelected(final MenuItem item) {
+  public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
     switch (item.getItemId()) {
       case R.id.search: {
         toaster("search");
@@ -109,8 +110,7 @@ public final class MainActivity extends AppCompatActivity {
             .beginTransaction()
             .replace(R.id.container, new CitiesListFragment())
             .commit();
-    runOnUiThread(() -> {
-    });
+
   }
 
   private void setNavigationListener() {
@@ -121,6 +121,7 @@ public final class MainActivity extends AppCompatActivity {
           break;
         }
         case R.id.nav_cities_list: {
+          getSupportFragmentManager().popBackStack();
           getSupportFragmentManager()
                   .beginTransaction()
                   .replace(R.id.container, new CitiesListFragment())

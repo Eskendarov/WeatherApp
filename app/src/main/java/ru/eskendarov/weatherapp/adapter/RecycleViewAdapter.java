@@ -17,7 +17,7 @@ import ru.eskendarov.weatherapp.R;
 public final class RecycleViewAdapter extends
         RecyclerView.Adapter<RecycleViewAdapter.CityViewHolder> {
 
-  private static final String TAG = "qwerty";
+  private static final String TAG = "qqqq";
   private final List<City> cities;
   private OnItemClickListener itemClickListener;
 
