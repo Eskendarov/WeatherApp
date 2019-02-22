@@ -1,12 +1,13 @@
 package ru.eskendarov.weatherapp;
 
-import android.content.Intent;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -16,26 +17,22 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.google.android.material.navigation.NavigationView;
-import ru.eskendarov.weatherapp.audioplayer.App;
-import ru.eskendarov.weatherapp.audioplayer.AudioService;
-import ru.eskendarov.weatherapp.audioplayer.Player;
+import ru.eskendarov.weatherapp.fragments.CitiesListFragment;
+import ru.eskendarov.weatherapp.fragments.SettingsFragment;
+import ru.eskendarov.weatherapp.fragments.WeatherTodayFragment;
 
 /**
  * @author Enver Eskendarov
  */
 public final class MainActivity extends AppCompatActivity {
 
-  private static final String TAG = "qwerty";
+  private static final String TAG = "main";
   @BindView(R.id.toolbar)
   Toolbar toolbar;
   @BindView(R.id.drawer_layout)
   DrawerLayout drawer;
   @BindView(R.id.nav_view)
   NavigationView navigationView;
-  @BindView(R.id.player)
-  Button button;
-  @BindView(R.id.stop_service)
-  Button stopService;
 
   @Override
   public void onBackPressed() {
@@ -54,16 +51,28 @@ public final class MainActivity extends AppCompatActivity {
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
     getMenuInflater().inflate(R.menu.main, menu);
-    final MenuItem searchItem = menu.findItem(R.id.search);
-    final SearchView searchView = (SearchView) searchItem.getActionView();
-    logging(searchView.getQuery().toString());
-    // Не могу получить текст из поиска ¯\_(ツ)_/¯
+    final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+    final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+    searchView.setIconifiedByDefault(false);
+    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override
+      public boolean onQueryTextSubmit(final String query) {
+        return true;
+      }
+
+      @Override
+      public boolean onQueryTextChange(final String newText) {
+        logging(newText);
+        return true;
+      }
+    });
     logging("onCreateOptionsMenu");
-    return super.onCreateOptionsMenu(menu);
+    return true;
   }
 
   @Override
-  public boolean onOptionsItemSelected(final MenuItem item) {
+  public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
     switch (item.getItemId()) {
       case R.id.search: {
         toaster("search");
@@ -84,32 +93,12 @@ public final class MainActivity extends AppCompatActivity {
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    ButterKnife.bind(this);
     initialize();
-    player();
     logging("onCreate");
   }
 
-  private void player() {
-    stopService.setOnClickListener(v -> {
-      stopService(new Intent(this, AudioService.class));
-    });
-    button.setOnClickListener(v -> {
-      final Player player = ((App) getApplication()).getPlayer();
-      if (player == null) {
-        toaster("Player isn't running");
-        return;
-      }
-      button.setText(player.isPlaying() ? "Play" : "Pause");
-      if (player.isPlaying()) {
-        player.pause();
-      } else {
-        player.start();
-      }
-    });
-  }
-
   private void initialize() {
-    ButterKnife.bind(this);
     setNavigationListener();
     setSupportActionBar(toolbar);
     final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -118,6 +107,11 @@ public final class MainActivity extends AppCompatActivity {
             R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
+    getSupportFragmentManager().popBackStack();
+    getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.container, new WeatherTodayFragment())
+            .commit();
   }
 
   private void setNavigationListener() {
@@ -128,11 +122,21 @@ public final class MainActivity extends AppCompatActivity {
           break;
         }
         case R.id.nav_cities_list: {
-          toaster("nav cities list");
+          getSupportFragmentManager().popBackStack();
+          getSupportFragmentManager()
+                  .beginTransaction()
+                  .addToBackStack(null)
+                  .replace(R.id.container, new CitiesListFragment())
+                  .commit();
           break;
         }
         case R.id.nav_setting: {
-          toaster("nav setting");
+          getSupportFragmentManager().popBackStack();
+          getSupportFragmentManager()
+                  .beginTransaction()
+                  .addToBackStack(null)
+                  .replace(R.id.container, new SettingsFragment())
+                  .commit();
           break;
         }
         default: {

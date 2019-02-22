@@ -1,17 +1,18 @@
-package ru.eskendarov.weatherapp;
+package ru.eskendarov.weatherapp.adapter;
 
 import android.util.Log;
 
 /**
  * @author Enver Eskendarov
  */
-final class City {
+public final class City {
 
   private final String name;
   private final String country;
   private final int photoId;
 
-  City(final String name, final String country, final int photoId) {
+
+  public City(final String name, final String country, final int photoId) {
     this.name = name;
     this.country = country;
     this.photoId = photoId;
@@ -22,7 +23,7 @@ final class City {
     Log.d(getClass().getSimpleName(), String.format("%s", message));
   }
 
-  String getName() {
+  public String getName() {
     logging("getName");
     return name;
   }

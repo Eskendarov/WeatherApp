@@ -4,12 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
     app:cardCornerRadius="10dp"
     android:id="@+id/card_view"
     android:focusable="true"
@@ -21,7 +18,7 @@
       android:orientation="horizontal"
       android:background="@drawable/color_gradient"
       >
-  
+
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +26,7 @@
         android:layout_margin="5dp"
         android:padding="10dp"
         >
-    
+
       <androidx.appcompat.widget.AppCompatImageView
           android:layout_width="140dp"
           android:layout_height="140dp"
@@ -41,20 +38,21 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
+        android:layout_margin="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="PrivateResource"
         android:padding="10dp"
+        tools:ignore="PrivateResource"
         >
-      
-      <androidx.appcompat.widget.AppCompatTextView
+  
+      <TextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/city_name"
           android:textSize="25sp"
           />
-      
-      <androidx.appcompat.widget.AppCompatTextView
+  
+      <TextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/country"

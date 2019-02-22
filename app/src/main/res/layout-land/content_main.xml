@@ -4,16 +4,17 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="5dp"
     >
-  <!-- Фрагмент с выбором городов -->
+  
   <fragment
-      android:name="ru.eskendarov.weatherapp.CitiesListFragment"
+      android:name="ru.eskendarov.weatherapp.fragments.CitiesListFragment"
       android:id="@+id/cities_list_fragment"
       android:layout_weight="5"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       />
-  <!-- Здесь будет инфо выбранного города -->
+  
   <FrameLayout
       android:id="@+id/container"
       android:layout_width="match_parent"

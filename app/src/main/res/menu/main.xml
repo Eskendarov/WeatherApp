@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-  
   <group
       android:id="@+id/menu_top"
       android:visible="true"
@@ -16,5 +15,4 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         />
   </group>
-
 </menu>

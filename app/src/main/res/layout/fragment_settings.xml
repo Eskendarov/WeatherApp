@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="@color/colorFragmentBackground"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="10dp"
+    >
+  
+  <androidx.appcompat.widget.LinearLayoutCompat
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      >
+    
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        >
+      
+      <TextView
+          android:id="@+id/current_city"
+          android:textAlignment="center"
+          android:textSize="18sp"
+          android:layout_marginEnd="15dp"
+          android:textColor="@android:color/white"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          />
+    </androidx.appcompat.widget.Toolbar>
+    
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        >
+      
+      <androidx.appcompat.widget.LinearLayoutCompat
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          >
+        
+        <TextView
+            android:text="Set Default City: "
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:id="@+id/setting_city_name"
+            />
+      </androidx.appcompat.widget.LinearLayoutCompat>
+      
+      <Button
+          android:text="Save"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/save_city_name"
+          />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+  </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>

@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_margin="5dp"
+    android:id="@+id/container"
     tools:showIn="@layout/app_bar_main"
-    android:orientation="vertical"
     tools:context=".MainActivity"
     >
-  
-  <FrameLayout
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      android:id="@+id/container"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      >
-    
-    <fragment
-        android:name="ru.eskendarov.weatherapp.CitiesListFragment"
-        android:id="@+id/cities"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-  </FrameLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>
+</FrameLayout>

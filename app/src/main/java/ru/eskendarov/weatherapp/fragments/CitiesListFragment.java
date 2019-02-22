@@ -1,15 +1,14 @@
-package ru.eskendarov.weatherapp;
+package ru.eskendarov.weatherapp.fragments;
 
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindArray;
@@ -18,8 +17,14 @@ import butterknife.ButterKnife;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import ru.eskendarov.weatherapp.R;
+import ru.eskendarov.weatherapp.adapter.City;
+import ru.eskendarov.weatherapp.adapter.RecycleViewAdapter;
 
-public class CitiesListFragment extends Fragment {
+/**
+ * @author Enver Eskendarov
+ */
+public final class CitiesListFragment extends Fragment {
 
   @BindView(R.id.recycler_view)
   RecyclerView recyclerView;
@@ -31,10 +36,9 @@ public class CitiesListFragment extends Fragment {
   TypedArray imageIndex;
 
   @Override
-  public View onCreateView(
-          @NonNull final LayoutInflater inflater,
-          @Nullable final ViewGroup container,
-          final Bundle savedInstanceState) {
+  public View onCreateView(@NonNull final LayoutInflater inflater,
+                           @Nullable final ViewGroup container,
+                           @Nullable final Bundle savedInstanceState) {
     final View view =
             inflater.inflate(R.layout.fragment_list_cities, container, false);
     ButterKnife.bind(this, view);
@@ -45,19 +49,10 @@ public class CitiesListFragment extends Fragment {
   public void onActivityCreated(final Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     recyclerView.setHasFixedSize(true);
-    final RecycleViewAdapter adapter = new RecycleViewAdapter(getCitiesList());
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    final RecycleViewAdapter adapter = new RecycleViewAdapter(getCitiesList());
     adapter.SetOnItemClickListener((view, cityName) -> {
-      final Intent intent =
-              new Intent(getActivity(), WeatherInfoActivity.class);
-      intent.putExtra("city", cityName);
-      startActivity(intent);
-//      getActivity()
-//              .getSupportFragmentManager()
-//              .beginTransaction()
-//              .replace(R.id.cities,new WeatherInfoFragment())
-//              .commit();
-      Toast.makeText(getActivity(), cityName, Toast.LENGTH_SHORT).show();
+      recycleViewClick(cityName);
     });
     recyclerView.setAdapter(adapter);
   }
@@ -70,5 +65,18 @@ public class CitiesListFragment extends Fragment {
     }
     cityList.sort(Comparator.comparing(City::getName));
     return cityList;
+  }
+
+  private void recycleViewClick(final String cityName) {
+    final Bundle args = new Bundle();
+    args.putString("city", cityName);
+    final WeatherTodayFragment weatherTodayFragment = new WeatherTodayFragment();
+    weatherTodayFragment.setArguments(args);
+    final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+    fragmentManager.popBackStack();
+    fragmentManager.beginTransaction()
+            .add(R.id.container, weatherTodayFragment)
+            .remove(this)
+            .commit();
   }
 }

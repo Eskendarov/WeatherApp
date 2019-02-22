@@ -2,10 +2,12 @@
 <resources>
   <color name="colorActionBarTitle">#cfd8dc</color>
   <color name="colorBackgroundFloating">#ffffff</color>
-  <color name="colorStatusBar">#29434e</color>
-  <color name="colorActionBar">#34515e</color>
-  <color name="colorBackground">#607d8b</color>
-  <color name="colorAccentDark">#34515e</color>
+  <color name="colorStatusBar">#01579B</color>
+  <color name="colorActionBar">#13547a</color>
+  <color name="colorBackground">#039BE5</color>
+  <color name="colorFragmentBackground">#FF80AB</color>
+  <!--<color name="colorFragmentBackground">#c51162</color>-->
+  <color name="colorAccentDark">#13547a</color>
   <color name="primaryTextColor">#212121</color>
   <color name="secondaryTextColor">#fafafa</color>
 </resources>
