@@ -19,13 +19,14 @@ import butterknife.ButterKnife;
 import com.google.android.material.navigation.NavigationView;
 import ru.eskendarov.weatherapp.fragments.CitiesListFragment;
 import ru.eskendarov.weatherapp.fragments.SettingsFragment;
+import ru.eskendarov.weatherapp.fragments.WeatherTodayFragment;
 
 /**
  * @author Enver Eskendarov
  */
 public final class MainActivity extends AppCompatActivity {
 
-  private static final String TAG = "qqqq";
+  private static final String TAG = "main";
   @BindView(R.id.toolbar)
   Toolbar toolbar;
   @BindView(R.id.drawer_layout)
@@ -92,12 +93,12 @@ public final class MainActivity extends AppCompatActivity {
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    ButterKnife.bind(this);
     initialize();
     logging("onCreate");
   }
 
   private void initialize() {
-    ButterKnife.bind(this);
     setNavigationListener();
     setSupportActionBar(toolbar);
     final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,11 +107,11 @@ public final class MainActivity extends AppCompatActivity {
             R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
+    getSupportFragmentManager().popBackStack();
     getSupportFragmentManager()
             .beginTransaction()
-            .replace(R.id.container, new CitiesListFragment())
+            .replace(R.id.container, new WeatherTodayFragment())
             .commit();
-
   }
 
   private void setNavigationListener() {
@@ -124,6 +125,7 @@ public final class MainActivity extends AppCompatActivity {
           getSupportFragmentManager().popBackStack();
           getSupportFragmentManager()
                   .beginTransaction()
+                  .addToBackStack(null)
                   .replace(R.id.container, new CitiesListFragment())
                   .commit();
           break;

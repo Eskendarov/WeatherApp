@@ -11,6 +11,7 @@ public final class City {
   private final String country;
   private final int photoId;
 
+
   public City(final String name, final String country, final int photoId) {
     this.name = name;
     this.country = country;

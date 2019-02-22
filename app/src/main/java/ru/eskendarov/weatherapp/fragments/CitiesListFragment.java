@@ -70,13 +70,13 @@ public final class CitiesListFragment extends Fragment {
   private void recycleViewClick(final String cityName) {
     final Bundle args = new Bundle();
     args.putString("city", cityName);
-    final WeatherInfoFragment infoFragment = new WeatherInfoFragment();
-    infoFragment.setArguments(args);
+    final WeatherTodayFragment weatherTodayFragment = new WeatherTodayFragment();
+    weatherTodayFragment.setArguments(args);
     final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
     fragmentManager.popBackStack();
     fragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.container, infoFragment)
+            .add(R.id.container, weatherTodayFragment)
+            .remove(this)
             .commit();
   }
 }

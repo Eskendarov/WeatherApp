@@ -10,8 +10,8 @@
   <string name="cities">Cities</string>
   <string name="settings">Settings</string>
   <string-array name="cities">
-    <item>Saint-Petersburg</item>
-    <item>New-York</item>
+    <item>Saint Petersburg</item>
+    <item>New York</item>
     <item>Paris</item>
     <item>Beijing</item>
     <item>Abu Dhabi</item>
