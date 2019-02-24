@@ -27,34 +27,11 @@ public final class WeatherAPI {
 
   public interface ApiInterface {
 
-//    @GET("data/2.5/weather")
-//    Call<Weather> getWeatherByLatLon(
-//            @Query("lat") Double lat,
-//            @Query("lon") Double lon,
-//            @Query("units") String units,
-//            @Query("appid") String appid
-//    );
-//
-//    @GET("data/2.5/forecast")
-//    Call<WeatherForecast> getForecastByLatLon(
-//            @Query("lat") Double lat,
-//            @Query("lon") Double lon,
-//            @Query("units") String units,
-//            @Query("appid") String appid
-//    );
-
     @GET("data/2.5/weather")
     Call<Weather> getWeatherByCityName(
             @Query("q") String name,
             @Query("units") String units,
             @Query("appid") String appid
     );
-
-//    @GET("data/2.5/forecast")
-//    Call<WeatherForecast> getForecastByCityName(
-//            @Query("q") String name,
-//            @Query("units") String units,
-//            @Query("appid") String appid
-//    );
   }
 }

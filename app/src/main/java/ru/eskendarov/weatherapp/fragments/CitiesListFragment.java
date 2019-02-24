@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,6 +35,7 @@ public final class CitiesListFragment extends Fragment {
   String[] countries;
   @BindArray(R.array.cities_imgs)
   TypedArray imageIndex;
+  private Unbinder unbinder;
 
   @Override
   public View onCreateView(@NonNull final LayoutInflater inflater,
@@ -41,7 +43,7 @@ public final class CitiesListFragment extends Fragment {
                            @Nullable final Bundle savedInstanceState) {
     final View view =
             inflater.inflate(R.layout.fragment_list_cities, container, false);
-    ButterKnife.bind(this, view);
+    unbinder = ButterKnife.bind(this, view);
     return view;
   }
 
@@ -78,5 +80,11 @@ public final class CitiesListFragment extends Fragment {
             .add(R.id.container, weatherTodayFragment)
             .remove(this)
             .commit();
+  }
+
+  @Override
+  public void onDestroyView() {
+    unbinder.unbind();
+    super.onDestroyView();
   }
 }

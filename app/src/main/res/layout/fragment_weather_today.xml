@@ -36,7 +36,7 @@
       >
     
     <TextView
-        android:textSize="100sp"
+        android:textSize="80sp"
         android:layout_gravity="center"
         android:textColor="@android:color/white"
         android:layout_width="wrap_content"
@@ -45,12 +45,31 @@
         />
     
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:visibility="gone"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_gravity="center"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
         android:id="@+id/weather_icon"
         >
     </ImageView>
   </LinearLayout>
+  
+  <androidx.cardview.widget.CardView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:cardCornerRadius="7dp"
+      android:layout_margin="7dp"
+      android:background="@color/colorBackground"
+      android:layout_gravity="bottom|center"
+      >
+    
+    <TextView
+        android:visibility="gone"
+        android:textSize="12sp"
+        android:layout_margin="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/last_update"
+        />
+  </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>

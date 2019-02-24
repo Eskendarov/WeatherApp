@@ -16,6 +16,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import com.google.android.material.navigation.NavigationView;
 import ru.eskendarov.weatherapp.fragments.CitiesListFragment;
 import ru.eskendarov.weatherapp.fragments.SettingsFragment;
@@ -26,6 +27,7 @@ import ru.eskendarov.weatherapp.fragments.WeatherTodayFragment;
  */
 public final class MainActivity extends AppCompatActivity {
 
+  // region fields
   private static final String TAG = "main";
   @BindView(R.id.toolbar)
   Toolbar toolbar;
@@ -33,6 +35,8 @@ public final class MainActivity extends AppCompatActivity {
   DrawerLayout drawer;
   @BindView(R.id.nav_view)
   NavigationView navigationView;
+  private Unbinder unbinder;
+  // endregion
 
   @Override
   public void onBackPressed() {
@@ -93,7 +97,7 @@ public final class MainActivity extends AppCompatActivity {
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    ButterKnife.bind(this);
+    unbinder = ButterKnife.bind(this);
     initialize();
     logging("onCreate");
   }
@@ -150,6 +154,7 @@ public final class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onDestroy() {
+    unbinder.unbind();
     super.onDestroy();
   }
 }

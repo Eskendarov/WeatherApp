@@ -1,5 +1,6 @@
 package ru.eskendarov.weatherapp.fragments;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import com.bumptech.glide.Glide;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,6 +21,7 @@ import retrofit2.Response;
 import ru.eskendarov.weatherapp.R;
 import ru.eskendarov.weatherapp.apiweather.Weather;
 import ru.eskendarov.weatherapp.apiweather.WeatherAPI;
+import ru.eskendarov.weatherapp.dbhelper.DatabaseHelper;
 import ru.eskendarov.weatherapp.utils.CityPreference;
 
 /**
@@ -26,6 +29,7 @@ import ru.eskendarov.weatherapp.utils.CityPreference;
  */
 public final class WeatherTodayFragment extends Fragment {
 
+  // region fields
   private static final String TAG = "today";
   private final String key = WeatherAPI.KEY;
   private final String units = "metric";
@@ -35,7 +39,14 @@ public final class WeatherTodayFragment extends Fragment {
   TextView tempText;
   @BindView(R.id.weather_icon)
   ImageView imageView;
+  @BindView(R.id.last_update)
+  TextView lastUpdate;
   private WeatherAPI.ApiInterface api;
+  private Call<Weather> weatherCall;
+  private Unbinder unbinder;
+  private DatabaseHelper databaseHelper;
+  private SQLiteDatabase cityDatabase;
+  // endregion
 
   @Override
   public View onCreateView(@NonNull final LayoutInflater inflater,
@@ -43,9 +54,15 @@ public final class WeatherTodayFragment extends Fragment {
                            @Nullable final Bundle savedInstanceState) {
     View view = getLayoutInflater()
             .inflate(R.layout.fragment_weather_today, container, false);
-    ButterKnife.bind(this, view);
+    unbinder = ButterKnife.bind(this, view);
     api = WeatherAPI.getClient().create(WeatherAPI.ApiInterface.class);
+    initDataBase();
     return view;
+  }
+
+  private void initDataBase() {
+    databaseHelper = new DatabaseHelper(getActivity());
+    cityDatabase = databaseHelper.getWritableDatabase();
   }
 
   @Override
@@ -55,26 +72,36 @@ public final class WeatherTodayFragment extends Fragment {
     Log.d(TAG, "onActivityCreated() returned: " + savedInstanceState);
   }
 
+  @Override
+  public void onDestroy() {
+    cityDatabase.close();
+    unbinder.unbind();
+    weatherCall.cancel();
+    super.onDestroy();
+  }
+
   private void getWeatherByCityName() {
-    String city;
+    String currentCity;
     if (getArguments() != null) {
-      city = getArguments().getString("city");
+      currentCity = getArguments().getString("city");
     } else {
-      city = new CityPreference(getActivity()).getCity();
+      currentCity = new CityPreference(getActivity()).getCity();
     }
-    Call<Weather> weatherCall = api.getWeatherByCityName(city, units, key);
+    weatherCall = api.getWeatherByCityName(currentCity, units, key);
     weatherCall.enqueue(new Callback<Weather>() {
       @Override
       public void onResponse(@NonNull final Call<Weather> call,
                              @NonNull final Response<Weather> response) {
-        final Weather data = response.body();
+        final Weather weather = response.body();
         if (response.isSuccessful()) {
-          cityName.setText(data.getCity());
-          tempText.setText(data.getTempWithDegree());
-          Glide.with(getActivity()).load(data.getIconUrl()).into(imageView);
-          Log.d(TAG, "getCity() returned: " + data.getCity());
+          databaseHelper.addCityWeather(weather, cityDatabase);
+          cityName.setText(weather.getCity());
+          tempText.setText(weather.getTemp());
+          Glide.with(getActivity()).load(weather.getIconUrl()).into(imageView);
+          imageView.setVisibility(View.VISIBLE);
+          Log.d(TAG, "getIconUrl() returned: " + weather.getIconUrl());
         } else {
-          cityName.setText("Incorrect Value");
+          cityName.setText("Incorrect Value: " + currentCity);
           tempText.setTextSize(50f);
           tempText.setText("N/A");
         }
@@ -84,6 +111,22 @@ public final class WeatherTodayFragment extends Fragment {
       @Override
       public void onFailure(@NonNull final Call<Weather> call,
                             @NonNull final Throwable t) {
+        databaseHelper.getCityWeatherCities(cityDatabase).forEach(cityWeather -> {
+          if (cityWeather.getName().equalsIgnoreCase(currentCity)) {
+            imageView.setVisibility(View.VISIBLE);
+            cityName.setText(cityWeather.getName());
+            tempText.setText(cityWeather.getTemp());
+            Glide.with(getActivity())
+                    .load(cityWeather.getImageIcon()).into(imageView);
+            lastUpdate.setVisibility(View.VISIBLE);
+            lastUpdate.setText(String.format("Last Update Weather: %s",
+                    cityWeather.getLastUpdate()));
+          } else {
+            cityName.setText("Connection is Fail");
+            tempText.setTextSize(50f);
+            tempText.setText("N/A");
+          }
+        });
         Log.d(TAG, "onFailure() returned: " + t.getMessage());
       }
     });

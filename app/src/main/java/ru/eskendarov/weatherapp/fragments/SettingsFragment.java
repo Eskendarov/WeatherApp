@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import ru.eskendarov.weatherapp.R;
 import ru.eskendarov.weatherapp.utils.CityPreference;
 
@@ -28,6 +29,7 @@ public final class SettingsFragment extends Fragment {
   @BindView(R.id.save_city_name)
   Button button;
   private CityPreference cityPreference;
+  private Unbinder unbinder;
 
   @Override
   public View onCreateView(@NonNull final LayoutInflater inflater,
@@ -35,9 +37,10 @@ public final class SettingsFragment extends Fragment {
                            @Nullable final Bundle savedInstanceState) {
     final View view = getLayoutInflater()
             .inflate(R.layout.fragment_settings, container, false);
-    ButterKnife.bind(this, view);
+    unbinder = ButterKnife.bind(this, view);
     cityPreference = new CityPreference(getActivity());
-    textView.setText(String.format("Current Default City: %s", cityPreference.getCity()));
+    textView.setText(String.format("Current Default City: %s",
+            cityPreference.getCity().toUpperCase()));
     return view;
   }
 
@@ -57,5 +60,11 @@ public final class SettingsFragment extends Fragment {
                 "input city name", Toast.LENGTH_SHORT).show();
       }
     });
+  }
+
+  @Override
+  public void onDestroyView() {
+    unbinder.unbind();
+    super.onDestroyView();
   }
 }
