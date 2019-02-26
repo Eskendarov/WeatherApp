@@ -121,10 +121,6 @@ public final class WeatherTodayFragment extends Fragment {
             lastUpdate.setVisibility(View.VISIBLE);
             lastUpdate.setText(String.format("Last Update Weather: %s",
                     cityWeather.getLastUpdate()));
-          } else {
-            cityName.setText("Connection is Fail");
-            tempText.setTextSize(50f);
-            tempText.setText("N/A");
           }
         });
         Log.d(TAG, "onFailure() returned: " + t.getMessage());

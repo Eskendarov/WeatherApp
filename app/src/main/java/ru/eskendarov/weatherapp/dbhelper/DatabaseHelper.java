@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.UUID;
 import ru.eskendarov.weatherapp.apiweather.Weather;
 
 /**
@@ -28,7 +29,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
           {ID, CITY_NAME, TEMPERATURE, ICON_URL, LAST_UPDATE};
   private static final String CREATE_CITIES_TABLE = String.format(
           "create table %s ( " +
-                  "%s integer primary key autoincrement, " +
+                  "%s TEXT NOT NULL, " +
                   "%s TEXT NOT NULL unique, " +
                   "%s TEXT NOT NULL, " +
                   "%s TEXT NOT NULL, " +
@@ -56,6 +57,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
   public void addCityWeather(final Weather weather, final SQLiteDatabase database) {
     final ContentValues values = new ContentValues();
+    values.put(ID, UUID.randomUUID().toString());
     values.put(CITY_NAME, weather.getCity());
     values.put(TEMPERATURE, weather.getTemp());
     values.put(ICON_URL, weather.getIconUrl());
