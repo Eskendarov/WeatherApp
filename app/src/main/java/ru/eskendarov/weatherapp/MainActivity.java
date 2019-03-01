@@ -2,6 +2,7 @@ package ru.eskendarov.weatherapp;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.google.android.material.navigation.NavigationView;
+import ru.eskendarov.weatherapp.dbhelper.DatabaseHelper;
 import ru.eskendarov.weatherapp.fragments.CitiesListFragment;
 import ru.eskendarov.weatherapp.fragments.SettingsFragment;
 import ru.eskendarov.weatherapp.fragments.WeatherTodayFragment;
@@ -67,6 +69,11 @@ public final class MainActivity extends AppCompatActivity {
 
       @Override
       public boolean onQueryTextChange(final String newText) {
+        DatabaseHelper databaseHelper = new DatabaseHelper(getBaseContext());
+        SQLiteDatabase cityDatabase = databaseHelper.getWritableDatabase();
+        new DatabaseHelper(getBaseContext()).findCityByName(cityDatabase, newText).forEach(cityWeather -> {
+          logging(cityWeather.getTemp());
+        });
         logging(newText);
         return true;
       }

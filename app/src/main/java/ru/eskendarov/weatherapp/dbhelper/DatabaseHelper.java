@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import ru.eskendarov.weatherapp.apiweather.Weather;
 public final class DatabaseHelper extends SQLiteOpenHelper {
 
   // region fields
+  private static final String TAG = "changes";
   private static final String DB_NAME = "cities_info.db";
   private static final int VERSION = 1;
   private static final String TABLE_NAME = "cities";
@@ -38,8 +40,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
   );
   private final SimpleDateFormat dateFormat =
           new SimpleDateFormat("EEEE, d MMM, HH:mm");
-  // endregion
 
+  // endregion
   public DatabaseHelper(@Nullable final Context context) {
     super(context, DB_NAME, null, VERSION);
   }
@@ -62,7 +64,45 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     values.put(TEMPERATURE, weather.getTemp());
     values.put(ICON_URL, weather.getIconUrl());
     values.put(LAST_UPDATE, dateFormat.format(weather.getDate().getTime()));
-    database.insert(TABLE_NAME, null, values);
+    if (isExist(database, weather.getCity())) {
+      database.update(TABLE_NAME, values,
+              String.format("%s = '%s'", CITY_NAME, weather.getCity()), null);
+      Log.d(TAG, "update() returned: " + values.toString());
+    } else {
+      database.insert(TABLE_NAME, null, values);
+      Log.d(TAG, "insert() returned: " + values.toString());
+    }
+  }
+
+  private boolean isExist(final SQLiteDatabase database, final String city) {
+    final int i = database.query(TABLE_NAME, WEATHER_COLUMNS,
+            String.format("city_name like '%s'", city), null, null, null, null).getCount();
+    return i != 0;
+  }
+
+  public ArrayList<CityWeather> findCityByName(final SQLiteDatabase database,
+                                               final String text) {
+    final ArrayList<CityWeather> cityWeathers = new ArrayList<>();
+    final Cursor cursor;
+    try {
+      cursor = database.query(TABLE_NAME, WEATHER_COLUMNS,
+              String.format("city_name like '%s'", text + '%'), null, null, null, null);
+      cursor.moveToFirst();
+      if (!cursor.isAfterLast()) {
+        do {
+          final CityWeather cityWeather = new CityWeather();
+          cityWeather.setName(cursor.getString(1));
+          cityWeather.setTemp(cursor.getString(2));
+          cityWeather.setImageIcon(cursor.getString(3));
+          cityWeather.setLastUpdate(cursor.getString(4));
+          cityWeathers.add(cityWeather);
+        } while (cursor.moveToNext());
+      }
+      cursor.close();
+    } catch (final Exception e) {
+      e.printStackTrace();
+    }
+    return cityWeathers;
   }
 
   public ArrayList<CityWeather> getCityWeatherCities(final SQLiteDatabase database) {
@@ -83,7 +123,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         } while (cursor.moveToNext());
       }
       cursor.close();
-    } catch (Exception e) {
+    } catch (final Exception e) {
       e.printStackTrace();
     }
     return weatherCities;
