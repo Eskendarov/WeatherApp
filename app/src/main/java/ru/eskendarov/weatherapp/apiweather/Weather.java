@@ -18,11 +18,6 @@ public final class Weather {
   @SerializedName("dt")
   private long timestamp;
 
-  public Weather(WeatherTemp temp, List<WeatherDescription> desctiption) {
-    this.temp = temp;
-    this.description = desctiption;
-  }
-
   public Calendar getDate() {
     Calendar date = Calendar.getInstance();
     date.setTimeInMillis(timestamp * 1000);
@@ -30,19 +25,11 @@ public final class Weather {
   }
 
   public String getTemp() {
-    return String.valueOf(temp.temp);
-  }
-
-  public String getTempMin() {
-    return String.valueOf(temp.temp_min);
-  }
-
-  public String getTempMax() {
-    return String.valueOf(temp.temp_max);
-  }
-
-  public String getTempInteger() {
-    return String.valueOf(temp.temp.intValue());
+    if (temp.temp.intValue() > 1) {
+      return String.format("+%s\u00B0C", temp.temp.intValue());
+    } else {
+      return String.format("%s\u00B0C", temp.temp.intValue());
+    }
   }
 
   public String getTempWithDegree() {
